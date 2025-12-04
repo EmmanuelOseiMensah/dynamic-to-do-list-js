@@ -1,55 +1,67 @@
-// 1️⃣ Setup Event Listener for Page Load
-document.addEventListener('DOMContentLoaded', function () {
+/**
+ * To-Do List Application Script
+ *
+ * This script is designed for the provided HTML structure, handling the logic 
+ * for adding, displaying, and removing tasks using DOM manipulation.
+ */
 
-    // 2️⃣ Select DOM Elements
-    const addButton = document.getElementById('add-task-btn'); // Add Task button
-    const taskInput = document.getElementById('task-input');   // Input field for new tasks
-    const taskList = document.getElementById('task-list');     // <ul> where tasks will appear
+// 1. Setup Event Listener for Page Load:
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // 2. Select DOM Elements (Updated IDs):
+    const addButton = document.getElementById('add-task-btn'); // The "Add Task" button
+    const taskInput = document.getElementById('task-input');   // The input field for new tasks
+    const taskList = document.getElementById('task-list');     // The <ul> where tasks are displayed
 
-    // 3️⃣ Create the addTask Function
+    // 3. Define the addTask Function:
     function addTask() {
-        const taskText = taskInput.value.trim(); // Get the typed task and remove extra spaces
+        
+        // Retrieve and trim the value from the task input field.
+        let taskText = taskInput.value.trim();
 
-        // 3a. Check if the input is empty
+        // Check if taskText is not empty.
         if (taskText === "") {
-            alert("Please enter a task."); // Prompt user if empty
-            return; // Stop function
+            alert("Please enter a task.");
+            return; // Exit the function if no task is entered
         }
 
-        // 3b. Task Creation
-        const li = document.createElement('li'); // Create a new <li> element
-        li.textContent = taskText;               // Set the text to the task entered
+        // 4. Task Creation and Removal:
 
-        // 3c. Create Remove Button
-        const removeBtn = document.createElement('button');
-        removeBtn.textContent = "Remove";
-        removeBtn.className = 'remove-btn';
+        // Create a new <li> element for the task.
+        const listItem = document.createElement('li');
+        listItem.textContent = taskText;
 
-        // 3d. Add functionality to remove task
-        removeBtn.onclick = function () {
-            taskList.removeChild(li); // Remove this <li> from the <ul>
+        // Create a new button element for removing the task.
+        const removeButton = document.createElement('button');
+        removeButton.textContent = "Remove";
+        removeButton.className = 'remove-btn'; // Useful for styling
+
+        // Assign the onclick event to the remove button.
+        removeButton.onclick = function() {
+            // Removes the parent <li> element from the <ul> (taskList).
+            taskList.removeChild(this.parentNode);
         };
 
-        // 3e. Append Remove Button to the <li>
-        li.appendChild(removeBtn);
+        // Append the remove button to the <li> element.
+        listItem.appendChild(removeButton);
 
-        // 3f. Append <li> to the <ul>
-        taskList.appendChild(li);
+        // Append the <li> to the taskList.
+        taskList.appendChild(listItem);
 
-        // 3g. Clear the input field
+        // Clear the task input field.
         taskInput.value = "";
     }
 
-    // 4️⃣ Attach Event Listeners
+    // 5. Attach Event Listeners:
 
-    // Add task on button click
+    // Event listener for the "Add Task" button click.
     addButton.addEventListener('click', addTask);
 
-    // Add task when Enter key is pressed inside the input field
-    taskInput.addEventListener('keypress', function (event) {
+    // Event listener for the 'keypress' event on the input field (to allow 'Enter').
+    taskInput.addEventListener('keypress', function(event) {
+        // Check if the pressed key is the 'Enter' key.
         if (event.key === 'Enter') {
-            addTask();
+            addTask(); // Call the addTask function
         }
     });
-
 });
